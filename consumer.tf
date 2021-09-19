@@ -24,7 +24,7 @@ resource "aws_iam_policy" "consumer_policy" {
 }
 
 data "aws_kms_key" "log_stream_key" {
-  key_id = "arn:aws:kms:${var.aws_region}:${data.aws_caller_identity.selected.account_id}:alias/${var.stream_name}"
+  key_id = "arn:aws:kms:${var.aws_region}:${data.aws_caller_identity.current.account_id}:alias/${var.stream_name}"
 }
 
 data "aws_iam_policy_document" "consume_kinesis_document" {
