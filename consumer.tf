@@ -1,5 +1,4 @@
 resource "aws_iam_user" "kinesis_consumer" {
-  count = var.consumer_user ? 1 : 0
   name  = "${var.stream_name}-consumer-${var.consumer_name}"
   path  = "/"
 
@@ -7,19 +6,16 @@ resource "aws_iam_user" "kinesis_consumer" {
 }
 
 resource "aws_iam_access_key" "consumer" {
-  count   = var.consumer_user ? 1 : 0
   user    = aws_iam_user.kinesis_consumer[0].name
   pgp_key = data.aws_ssm_parameter.kinesis_users_public_key.value
 }
 
 resource "aws_iam_user_policy_attachment" "consumer_policy" {
-  count      = var.consumer_user ? 1 : 0
   user       = aws_iam_user.kinesis_consumer[0].name
   policy_arn = aws_iam_policy.consumer_policy[0].arn
 }
 
 resource "aws_iam_policy" "consumer_policy" {
-  count       = var.consumer_user ? 1 : 0
   name_prefix        = "${var.stream_name}-consumer-${var.consumer_name}-policy"
   path        = "/"
   description = "A policy to enable consuming from the specified Kinesis Data Stream"
