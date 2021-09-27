@@ -1,3 +1,7 @@
+locals {
+  dynamodb_table = "arn:aws:dynamodb:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:table/${var.consumer_name}-${var.stream_name}"
+}
+
 resource "aws_iam_user" "kinesis_consumer" {
   name  = "${var.stream_name}-consumer-${var.consumer_name}"
   path  = "/"
@@ -83,7 +87,7 @@ data "aws_iam_policy_document" "consume_kinesis_document" {
     ]
 
     resources = [
-      "arn:aws:dynamodb:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:table/${var.consumer_name}-${var.stream_name}"
+      local.dynamodb_table
     ]
   }
 }
