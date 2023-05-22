@@ -9,11 +9,6 @@ resource "aws_iam_user" "kinesis_consumer" {
   tags = var.tags
 }
 
-resource "aws_iam_access_key" "consumer" {
-  user    = aws_iam_user.kinesis_consumer.name
-  pgp_key = data.aws_ssm_parameter.kinesis_users_public_key.value
-}
-
 resource "aws_iam_user_policy_attachment" "consumer_policy" {
   user       = aws_iam_user.kinesis_consumer.name
   policy_arn = aws_iam_policy.consumer_policy.arn
