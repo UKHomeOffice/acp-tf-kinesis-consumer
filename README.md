@@ -1,4 +1,9 @@
 # acp-tf-kinesis-consumer
+
+## Upgrade v1 to v2
+
+IAM credential outputs were removed
+
 ## Requirements
 
 No requirements.
